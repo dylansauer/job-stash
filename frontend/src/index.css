@@ -11,6 +11,7 @@ body {
   margin: 0;
   font-family: "Poppins";
 }
+
 header {
   background: #fff;
 }
@@ -94,6 +95,67 @@ header a {
   color: #333;
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10vh;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 4px;
+  width: 90%;
+  max-width: 800px;
+  min-height: 600px;
+  position: relative;
+}
+
+.modal-close-x {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 36px; /* Increased from 24px */
+  line-height: 1;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.3s ease;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-x:hover {
+  color: #333;
+}
+
+.modal-close-button:hover {
+  opacity: 0.8;
+}
+
+.job-link {
+  color: var(--primary);
+}
+
+.job-link:hover {
+  color: var(--primary);
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
 /* new job form */
 label,
 input {
@@ -117,6 +179,20 @@ form button {
   border-radius: 4px;
   cursor: pointer;
 }
+
+form textarea {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  resize: vertical;
+  min-width: 100%;
+  max-width: 100%;
+  max-height: 400px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 div.error {
   padding: 10px;
   background: #ffefef;
@@ -126,6 +202,10 @@ div.error {
   margin: 20px 0;
 }
 input.error {
+  border: 1px solid var(--error);
+}
+
+textarea.error {
   border: 1px solid var(--error);
 }
 

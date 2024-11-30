@@ -37,7 +37,7 @@ const Home = () => {
       job.job_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleSearchClick = () => {
+  const handleAddJobClick = () => {
     setShowJobForm((prevState) => !prevState);
   };
 
@@ -52,7 +52,7 @@ const Home = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="add-button" onClick={handleSearchClick}>
+          <button className="add-button" onClick={handleAddJobClick}>
             + Add a job application
           </button>
         </div>
