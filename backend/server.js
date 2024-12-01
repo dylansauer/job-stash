@@ -3,15 +3,15 @@ require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
 const fileUpload = require("express-fileupload");
-const jwt = require("jsonwebtoken");
 
 const OpenAI = require("openai");
-const { OAuth2Client } = require("google-auth-library");
+const oAuth2Client = require("./config/googleOAuth");
 
 const mongoose = require("mongoose");
 const jobRoutes = require("./routes/jobs");
 const userRoutes = require("./routes/users");
 const gptRoutes = require("./routes/gpt");
+const googleRoutes = require("./routes/usersGoogle");
 
 // express app
 const app = express();
@@ -20,12 +20,6 @@ const app = express();
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-const oAuth2Client = new OAuth2Client(
-  process.env.OAUTH_ID,
-  process.env.OAUTH_SECRET,
-  "postmessage"
-);
 
 // avail
 app.locals.openai = openai;
@@ -57,17 +51,7 @@ app.use(
 app.use("/api/jobs", jobRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/gpt", gptRoutes);
-
-app.post("/auth/google", async (req, res) => {
-  const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
-  // console.log(tokens);
-
-  const { id_token: googleId } = tokens;
-  console.log("test");
-  console.log(googleId);
-
-  res.json(tokens);
-});
+app.use("/auth/google", googleRoutes);
 
 // conect to db
 mongoose
@@ -81,7 +65,3 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-
-module.exports = {
-  oAuth2Client,
-};
