@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Navbar from "./components/Navbar";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const { user } = useAuthContext();
@@ -28,6 +29,7 @@ function App() {
               path="/register"
               element={!user ? <Register /> : <Navigate to="/" />}
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </BrowserRouter>
