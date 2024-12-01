@@ -1,10 +1,10 @@
 const express = require("express");
 const {
-    getJobs,
-    getJob,
-    createJob,
-    deleteJob,
-    updateJob,
+  getJobs,
+  getJob,
+  createJob,
+  deleteJob,
+  updateJob,
 } = require("../Controllers/jobController");
 const requireAuth = require("../middleware/requireAuth");
 

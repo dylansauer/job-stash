@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, error, isLoading } = useLogin();
+  const { dispatch } = useAuthContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,11 +19,21 @@ const Login = () => {
   const handleGoogleLogin = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (codeResponse) => {
-      console.log(codeResponse);
-      const tokens = await axios.post("http://localhost:4000/auth/google", {
-        code: codeResponse.code,
-      });
-      console.log(tokens);
+      try {
+        const tokens = await axios.post("http://localhost:4000/auth/google", {
+          code: codeResponse.code,
+        });
+
+        console.log(tokens);
+
+        // If successful, save the user to local storage
+        localStorage.setItem("user", JSON.stringify(tokens.data));
+
+        // Update the AuthContext
+        dispatch({ type: "LOGIN", payload: tokens.data });
+      } catch (error) {
+        console.log(error);
+      }
     },
     onError: (errorResponse) => console.log(errorResponse),
   });
@@ -37,7 +49,7 @@ const Login = () => {
         <label>Password</label>
         <input type="password" onChange={(e) => setPassword(e.target.value)} />
 
-        <button dsiabled={isLoading}>Login</button>
+        <button disabled={isLoading}>Login</button>
         {error && <div className="error">{error}</div>}
       </form>
       <button
